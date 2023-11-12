@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "64acb9d2-51bf-47da-94b3-394a04a18bc5": {
+      "ProjectGuid": "64acb9d2-51bf-47da-94b3-394a04a18bc5",
+      "DisplayName": "web first",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
