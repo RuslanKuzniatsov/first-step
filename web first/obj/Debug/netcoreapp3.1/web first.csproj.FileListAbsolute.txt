@@ -338,7 +338,6 @@ C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web fi
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web first.RazorCoreGenerate.cache
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web first.RazorTargetAssemblyInfo.cache
@@ -349,3 +348,6 @@ C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web fi
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web first.pdb
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\web first.genruntimeconfig.cache
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\Index.cshtml.g.cs
+C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\AddImage.cshtml.g.cs
+C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutGallery.cshtml.g.cs
+C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs

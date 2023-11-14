@@ -1,5 +1,14 @@
-﻿@model int
+﻿@model List<ImageViewModel>
 
 @{
-    Layout = "/Shared/_LayoutGallery.cshtml";
+    Layout = "/Views/Shared/_LayoutGallery.cshtml";
 }
+<div>
+    Смотри какие есть картинки
+</div>
+<div>
+    @foreach(var image in Model)
+    {
+        <a href="/Gallery/AddImage?id=@image.Id">@image.Name</a>
+    }
+</div>
