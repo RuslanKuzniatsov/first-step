@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using web_first.EfStuff;
 
 namespace web_first
 {
@@ -22,6 +24,9 @@ namespace web_first
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WebFirst1;Integrated Security=True;";
+            services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
+
             services.AddControllersWithViews();
         }
 

@@ -9,6 +9,12 @@
 <div>
     @foreach(var image in Model)
     {
-        <a href="/Gallery/AddImage?id=@image.Id">@image.Name</a>
+        <div>
+            <a href="/Gallery/ShowImage?id=@image.Id">@image.Name</a>
+        </div>
+        
     }
+    <div>
+            <a href="/Gallery/AddImage">Add Image</a>
+        </div>
 </div>

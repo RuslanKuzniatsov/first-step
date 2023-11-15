@@ -1,44 +1,63 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using web_first.EfStuff;
+using web_first.EfStuff.DbModel;
 using web_first.Models;
 
 namespace web_first.Controllers
 {
     public class GalleryController : Controller
     {
+        private WebContext _webContext;
+
+        public GalleryController(WebContext webContext)
+        {
+            _webContext = webContext;
+        }
+
         public IActionResult Index()
         {
-            var models = new List<ImageViewModel>()
+            var dbImages = _webContext.Images.ToList();
+
+            var viewModels = dbImages.Select(dbImage => new ImageViewModel()
             {
-                new ImageViewModel
-                {
-                    Id = 1,
-                    Name = "nice"
-                },
-                new ImageViewModel
-                {
-                    Id = 2,
-                    Name = "good"
-                },
-            };
+                Id = dbImage.Id,
+                Name = dbImage.Name
+            }).ToList();
+                      
                 
-            return View(models);
+            return View(viewModels);
         }
-        public IActionResult AddImage(int id)
+        public IActionResult ShowImage(int id)
         {
-            var model = new ImageUrlViewModel();
-            switch (id)
+            var dbImage = _webContext.Images.First(x => x.Id==id);
+
+            var model = new ImageUrlViewModel
             {
-                case 1:
-                    model.Url = "/images/gallery/girl1.jpg";
-                    break;
-                case 2:
-                    model.Url = "/images/gallery/girl2.jpg";
-                    break;
-                default:
-                    break;
-            }
+                Url = dbImage.Url,
+            };
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult AddImage()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddImage(AddImageViewModel viewModel)
+        {
+            var dbImage = new Image()
+            {
+                Url = viewModel.Url,
+                Name = viewModel.Name,
+                Rate = viewModel.Rate,
+            };
+            _webContext.Images.Add(dbImage);
+            _webContext.SaveChanges();
+            return View(viewModel);
+        }
+
     }
 }
