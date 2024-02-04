@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using web_first.EfStuff;
 using web_first.EfStuff.DbModel;
+using web_first.EfStuff.Repositores;
 using web_first.Models;
 
 namespace web_first.Controllers
 {
     public class GalleryController : Controller
     {
-        private WebContext _webContext;
+        private ImageRepository _imageRepository;
 
-        public GalleryController(WebContext webContext)
+        public GalleryController(ImageRepository imageRepository)
         {
-            _webContext = webContext;
+            _imageRepository = imageRepository;
         }
 
         public IActionResult Index()
         {
-            var dbImages = _webContext.Images.ToList();
+            var dbImages = _imageRepository.GetAll();
 
             var viewModels = dbImages.Select(dbImage => new ImageViewModel()
             {
@@ -31,7 +32,7 @@ namespace web_first.Controllers
         }
         public IActionResult ShowImage(int id)
         {
-            var dbImage = _webContext.Images.First(x => x.Id==id);
+            var dbImage = _imageRepository.Get(id);
 
             var model = new ImageUrlViewModel
             {
