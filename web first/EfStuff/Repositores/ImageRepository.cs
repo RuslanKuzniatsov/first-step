@@ -1,26 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using web_first.EfStuff.DbModel;
 
 namespace web_first.EfStuff.Repositores
 {
-    public class ImageRepository
+    public class ImageRepository : BaseRepository<Image>
     {
-        private WebContext _context;
-
-        public ImageRepository(WebContext context)
+        
+        public ImageRepository(WebContext context) : base(context)
         {
-           _context = context;
+
         }
 
-        public List<> GetAll ()
-        {
-            return _context.Images.ToList();
-        }
-
-        public Image Get(int id)
-        {
-            return _context.Images.FirstOrDefault(x => x.Id == id);
-        }
+        
     }
 }

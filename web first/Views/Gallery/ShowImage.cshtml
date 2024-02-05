@@ -4,6 +4,25 @@
     Layout = "/Views/Shared/_LayoutGallery.cshtml";
 }
 
-<div>
-    <image src="@Model.Url"/>
+<div class="gallery">
+    <div class="image">
+        <image src="@Model.Url"/>
+    </div>
+
+    <div class="comments">
+        @foreach (var comment in Model.Comments)
+        {
+            <div>
+                @comment
+            </div>
+        }
+
+    </div>
 </div>
+
+<form action="/Gallery/AddComment">
+    <input name="ImageId" type="hidden" value="@Model.Id"/>
+    Add Comment <input name="text"/>
+    <inpit typeof="submit" value="comment"/>
+
+</form>
