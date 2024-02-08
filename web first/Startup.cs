@@ -15,6 +15,7 @@ namespace web_first
 {
     public class Startup
     {
+        public const string AuthName = "SmileCookie";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,12 +29,21 @@ namespace web_first
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WebFirst1;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
-
+            services.AddAuthentication()
+                .AddCookie(AuthName, config =>
+                {
+                    config.LoginPath = "/GalleryAuthentification/Autorization";
+                    config.AccessDeniedPath = "/User/AccessDenied";
+                    config.Cookie.Name = "GalleryG";
+                });
 
             services.AddScoped<ImageRepository>(x => 
                 new ImageRepository(x.GetService<WebContext>()));
             services.AddScoped<ImageCommentRepository>(x =>
                 new ImageCommentRepository(x.GetService<WebContext>()));
+            services.AddScoped<GalleryUserRepository>(x =>
+                new GalleryUserRepository(x.GetService<WebContext>()));
+           
 
 
 
@@ -54,6 +64,9 @@ namespace web_first
             app.UseStaticFiles();
 
             app.UseRouting();
+
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

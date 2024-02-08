@@ -16,7 +16,10 @@ namespace web_first.EfStuff.Repositores
             _dbSet = _webContext.Set<T>();
         }
 
-
+        public bool Any()
+        {
+            return _dbSet.Any();
+        }
 
         public List<T> GetAll()
         {
@@ -34,6 +37,7 @@ namespace web_first.EfStuff.Repositores
             _dbSet.Add(model);
             _webContext.SaveChanges();
         }
+
 
         public void Remove(T model)
         {

@@ -7,3 +7,7 @@ img {
 .gallery{
     display: flex;
 }
+
+.change_pages {
+    display: flex;
+}
