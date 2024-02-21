@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using web_first.EfStuff;
 using web_first.EfStuff.Repositores;
+using web_first.Services;
 
 namespace web_first
 {
@@ -29,10 +31,10 @@ namespace web_first
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WebFirst1;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
-            services.AddAuthentication()
+            services.AddAuthentication(AuthName)
                 .AddCookie(AuthName, config =>
                 {
-                    config.LoginPath = "/GalleryAuthentification/Autorization";
+                    config.LoginPath = "/Gallery/Autorization";
                     config.AccessDeniedPath = "/User/AccessDenied";
                     config.Cookie.Name = "GalleryG";
                 });
@@ -43,7 +45,13 @@ namespace web_first
                 new ImageCommentRepository(x.GetService<WebContext>()));
             services.AddScoped<GalleryUserRepository>(x =>
                 new GalleryUserRepository(x.GetService<WebContext>()));
-           
+            services.AddScoped<UserService>(x =>
+                new UserService(
+                    x.GetService<GalleryUserRepository>(),
+                    x.GetService<IHttpContextAccessor>()));
+
+            services.AddHttpContextAccessor();
+            
 
 
 

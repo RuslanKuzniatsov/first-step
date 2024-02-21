@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Security.Claims;
+using System.Threading.Tasks;
 using web_first.EfStuff;
 using web_first.EfStuff.DbModel;
 using web_first.EfStuff.Repositores;
 using web_first.Models;
+using web_first.Services;
 
 namespace web_first.Controllers
 {
@@ -14,12 +18,14 @@ namespace web_first.Controllers
         private ImageRepository _imageRepository;
         private ImageCommentRepository _commentRepository;
         private GalleryUserRepository _userRepository;
+        private UserService _userService;
 
-        public GalleryController(ImageCommentRepository commentRepository, ImageRepository imageRepository, GalleryUserRepository userRepository)
+        public GalleryController(ImageCommentRepository commentRepository, ImageRepository imageRepository, GalleryUserRepository userRepository, UserService userService)
         {
             _commentRepository = commentRepository;
             _imageRepository = imageRepository;
             _userRepository = userRepository;
+            _userService = userService;
         }
 
         
@@ -134,19 +140,51 @@ namespace web_first.Controllers
 
 
         [HttpPost]
-        public IActionResult Autorization(GalleryUserRegistration userViewModel)
+        public async Task<IActionResult> Autorization(GalleryUserRegistration userViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                var user = _userRepository.GetByNameAndPass(userViewModel.Name, userViewModel.Password);
+                if (user == null)
+                {
+                    return View();
+                }
+
+                var claims = new List<Claim>() {
+                new Claim ( "Id", user.Id.ToString()),
+                new Claim ("Name", user.Name),
+                new Claim (ClaimTypes.AuthenticationMethod, Startup.AuthName)
+                };
+
+                var identity = new ClaimsIdentity(claims, Startup.AuthName);
+
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(principal);
+
+
+                return RedirectToRoute("default", new { controller = "Gallery", action = "MyProfile" });
             }
-            var user = _userRepository.GetByNameAndPass(userViewModel.Name, userViewModel.Password);
-            if (user == null)
+            
+            else
             {
                 return View();
             }
-            return RedirectToRoute("default", new { controller = "Gallery", action = "index", id = user.Id });
         }
 
+
+        [Authorize]
+        public IActionResult MyProfile()
+        {
+           
+            var user = _userService.GetCorrent();
+
+            var model = new GalleryProfileViewModel
+            {               
+                Name = user.Name,
+                
+            };
+            return View(model);
+        }
     }
 }
