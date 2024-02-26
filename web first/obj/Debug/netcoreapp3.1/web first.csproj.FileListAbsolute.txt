@@ -387,3 +387,4 @@ C:\Users\Ruslan\Desktop\code\first step\web first\bin\Debug\netcoreapp3.1\Micros
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\Autorization.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\Registration.cshtml.g.cs
 C:\Users\Ruslan\Desktop\code\first step\web first\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\MyProfile.cshtml.g.cs
+C:\Users\Ruslan\Desktop\code\first step\web first\bin\Debug\netcoreapp3.1\AutoMapper.dll

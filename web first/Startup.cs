@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using web_first.EfStuff;
+using web_first.EfStuff.DbModel;
 using web_first.EfStuff.Repositores;
+using web_first.Models;
 using web_first.Services;
 
 namespace web_first
@@ -38,6 +41,8 @@ namespace web_first
                     config.AccessDeniedPath = "/User/AccessDenied";
                     config.Cookie.Name = "GalleryG";
                 });
+            RegisterMaper(services);
+            
 
             services.AddScoped<ImageRepository>(x => 
                 new ImageRepository(x.GetService<WebContext>()));
@@ -56,6 +61,23 @@ namespace web_first
 
 
             services.AddControllersWithViews();
+        }
+
+        private void RegisterMaper(IServiceCollection services)
+        {
+            var provider = new MapperConfigurationExpression();
+
+            provider.CreateMap<AddImageViewModel, Image>();
+            provider.CreateMap<Image, ImageUrlViewModel>()
+                .ForMember(nameof(ImageUrlViewModel.Comments),
+                opt => opt
+                    .MapFrom( x => x.Comments.Select(c => c.Text).ToList()));
+
+            var mapperConfiguration = new MapperConfiguration(provider);
+
+            var mapper = new Mapper(mapperConfiguration);
+
+            services.AddSingleton<IMapper>(x => mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

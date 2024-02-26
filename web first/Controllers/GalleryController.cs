@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,20 +16,24 @@ namespace web_first.Controllers
 {
     public class GalleryController : Controller
     {
+        
         private ImageRepository _imageRepository;
         private ImageCommentRepository _commentRepository;
         private GalleryUserRepository _userRepository;
+        private IMapper _mapper;
         private UserService _userService;
 
-        public GalleryController(ImageCommentRepository commentRepository, ImageRepository imageRepository, GalleryUserRepository userRepository, UserService userService)
+
+        public GalleryController(ImageCommentRepository commentRepository, ImageRepository imageRepository, GalleryUserRepository userRepository, UserService userService, IMapper mapper)
         {
             _commentRepository = commentRepository;
             _imageRepository = imageRepository;
             _userRepository = userRepository;
             _userService = userService;
+            _mapper = mapper;
         }
 
-        
+
 
         public IActionResult Index(int page = 1)
         {
@@ -54,12 +59,13 @@ namespace web_first.Controllers
         {
             var dbImage = _imageRepository.Get(id);
 
-            var model = new ImageUrlViewModel
-            {
-                Id = dbImage.Id,
-                Url = dbImage.Url,
-                Comments = dbImage.Comments.Select(x => x.Text).ToList(),
-            };
+            var model = _mapper.Map<ImageUrlViewModel>(dbImage);
+            //var model = new ImageUrlViewModel
+            //{
+            //    Id = dbImage.Id,
+            //    Url = dbImage.Url,
+            //    Comments = dbImage.Comments.Select(x => x.Text).ToList(),
+            //};
             return View(model);
         }
 
@@ -71,16 +77,18 @@ namespace web_first.Controllers
         [HttpPost]
         public IActionResult AddImage(AddImageViewModel viewModel)
         {
-            var dbImage = new Image()
-            {
-                Url = viewModel.Url,
-                Name = viewModel.Name,
-                Rate = viewModel.Rate,
-            };
+
+            var dbImage = _mapper.Map<Image>(viewModel);
+            //var dbImage = new Image()
+            //{
+            //    Url = viewModel.Url,
+            //    Name = viewModel.Name,
+            //    Rate = viewModel.Rate,
+            //};
 
             var adminComment = new ImageComment()
             {
-                
+
                 Text = "first comment"
             };
             dbImage.Comments = new List<ImageComment>()
