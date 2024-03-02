@@ -77,6 +77,11 @@ namespace web_first.Controllers
         [HttpPost]
         public IActionResult AddImage(AddImageViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
 
             var dbImage = _mapper.Map<Image>(viewModel);
             //var dbImage = new Image()
