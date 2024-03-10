@@ -14,5 +14,6 @@ namespace web_first.EfStuff.Repositores
             return user;
         }
         
+        public bool IsEmailExist(string email) => _dbSet.Any(x => x.Email == email);
     }
 }
